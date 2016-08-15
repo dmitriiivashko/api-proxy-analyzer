@@ -1,7 +1,8 @@
 /* eslint-disable no-param-reassign, func-names, prefer-arrow-callback, prefer-template, max-len */
 
 import url from 'url';
-// import Meteor from 'meteor/meteor';
+import * as Settings from '/server/common/server_settings';
+import { Meteor } from 'meteor/meteor';
 
 if (Meteor.isServer) {
   Router.configureBodyParsers = function () {
@@ -17,15 +18,15 @@ if (Meteor.isServer) {
       where: 'server',
     });
   };
-}
 
-Router.route('/push-endpoint', function () {
-  this.response.end(
-    JSON.stringify(this.request.url, null, 4) + `\n\n` +
-    JSON.stringify(url.parse(this.request.url, true), null, 4) + `\n\n` +
-    JSON.stringify(this.request.method, null, 4) + `\n\n` +
-    JSON.stringify(this.request.headers, null, 4) + `\n\n` +
-    JSON.stringify(this.request.body, null, 4) + `\n\n` +
-    JSON.stringify(this.request.rawBody, null, 4)
-  );
-}, { where: 'server' });
+  Router.route(Settings.API_ENDPOINT, function () {
+    this.response.end(
+      JSON.stringify(this.request.url, null, 4) + `\n\n` +
+      JSON.stringify(url.parse(this.request.url, true), null, 4) + `\n\n` +
+      JSON.stringify(this.request.method, null, 4) + `\n\n` +
+      JSON.stringify(this.request.headers, null, 4) + `\n\n` +
+      JSON.stringify(this.request.body, null, 4) + `\n\n` +
+      JSON.stringify(this.request.rawBody, null, 4)
+    );
+  }, { where: 'server' });
+}

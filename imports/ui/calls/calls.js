@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import * as Constants from '../../startup/constants.js';
+import * as Constants from '/imports/startup/global_settings';
 import './calls.html';
 
 Template.calls.helpers({
