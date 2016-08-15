@@ -7,10 +7,13 @@
         <thead>
           <tr>
             <th>
-              ID
+              Timestamp
             </th>
             <th>
-              Timestamp
+              URL
+            </th>
+            <th>
+              ID
             </th>
             <th style="width: 100px;">
               Actions
@@ -21,10 +24,13 @@
           {{#each calls}}
             <tr>
               <td>
-                <a href="#">{{_id}}</a>
+                <a href="#">{{ timestamp }}</a>
               </td>
               <td>
-                <a href="#">{{timestamp}}</a>
+                <a href="#"><strong>[{{ method }}]</strong> {{ url }}</a>
+              </td>
+              <td>
+                <a href="#">{{ _id }}</a>
               </td>
               <td>
                 <a href="" class="btn btn-info btn-xs">Info</a>
