@@ -21,4 +21,8 @@ export default class {
       timestamp,
     });
   }
+
+  static getCall(id) {
+    return Calls.findOne({ _id: id });
+  }
 }
