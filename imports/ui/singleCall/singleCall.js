@@ -15,7 +15,8 @@ function isUrlEncoded(context) {
 
 Template.singleCall.helpers({
   displayBody() {
-    return this.method !== 'GET' && isUrlEncoded(this) && this.body;
+    return this.method !== 'GET'
+      && ((isUrlEncoded(this) && this.body) || (this.rawBody === null && this.body !== null));
   },
   displayRawBody() {
     return this.method !== 'GET' && !isUrlEncoded(this) && this.rawBody;
