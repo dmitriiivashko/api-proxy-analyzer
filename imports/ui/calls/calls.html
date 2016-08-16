@@ -2,30 +2,40 @@
 
   <div class="container">
     <div class="starter-template">
-      <h1>API Calls history (Last {{limit}})</h1>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Timestamp</th>
-            <th>URL</th>
-            <th>ID</th>
-            <th style="width: 100px;">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#each calls}}
+      {{#unless isEmpty}}
+        <h1>API Calls history (Last {{limit}})</h1>
+        <table class="table table-striped">
+          <thead>
             <tr>
-              <td> <a href="/calls/{{ _id }}">{{ timestamp }}</a> </td>
-              <td> <a href="/calls/{{ _id }}"><strong>[{{ method }}]</strong> {{ url }}</a> </td>
-              <td> <a href="/calls/{{ _id }}">{{ _id }}</a> </td>
-              <td>
-                <a href="" class="btn btn-info btn-xs">Info</a>
-                <a href="" class="btn btn-danger btn-xs">Delete</a>
-              </td>
+              <th>Timestamp</th>
+              <th>URL</th>
+              <th>ID</th>
+              <th style="width: 150px;">Actions</th>
             </tr>
-          {{/each}}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {{#each calls}}
+              <tr>
+                <td> <a href="{{pathFor route='call.single'}}">{{ timestamp }}</a> </td>
+                <td> <a href="{{pathFor route='call.single'}}"><strong>[{{ method }}]</strong> {{ url }}</a> </td>
+                <td> <a href="{{pathFor route='call.single'}}">{{ _id }}</a> </td>
+                <td>
+                  <a href="{{pathFor route='call.single'}}" class="btn btn-info btn-xs">Info</a>
+                  <a href="" class="route-proxy btn btn-success btn-xs">Proxy</a>
+                  <a href="" class="route-delete btn btn-danger btn-xs">Delete</a>
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      {{else}}
+        <div class="jumbotron">
+          <h3>No API Calls Logged Yet</h3>
+          <p>
+            To log calls, make sure the request are sent to the registered endpoints.
+          </p>
+        </div>
+      {{/unless}}
     </div>
   </div>
 

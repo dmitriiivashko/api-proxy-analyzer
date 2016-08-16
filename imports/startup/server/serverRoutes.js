@@ -14,13 +14,17 @@ if (Meteor.isServer) {
         req.rawBody = body.toString();
       },
     }), {
-      only: ['push-endpoint'],
+      only: ['endpoint'],
       where: 'server',
     });
   };
 
   Router.route(Settings.API_ENDPOINT, function () {
-    CallsService.registerRequest(this.request);
+    const relativePath = this.params.length > 0 ? this.params[0] : '';
+    CallsService.registerRequest(relativePath, this.request);
     this.response.end('OK');
-  }, { where: 'server' });
+  }, {
+    where: 'server',
+    name: 'endpoint',
+  });
 }

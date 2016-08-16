@@ -2,7 +2,7 @@ import Url from 'url';
 import Calls from './callsCollection';
 
 export default class {
-  static registerRequest(request) {
+  static registerRequest(relativePath, request) {
     const url = request.url;
     const parsedUrl = JSON.stringify(Url.parse(request.url, true), null, 4);
     const method = request.method;
@@ -13,6 +13,7 @@ export default class {
 
     Calls.insert({
       url,
+      relativePath,
       parsedUrl,
       method,
       headers,

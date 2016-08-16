@@ -1,9 +1,36 @@
-<template name="single_call">
+<template name="singleCall">
 
   <div class="container">
     <div class="starter-template">
-      <h1>API Call {{ _id }}</h1>
-    </div>
+      <h1>API Call Details</h1>
+
+      <hr>
+
+      <p><strong>ID:</strong> {{ _id }} ( {{ timestamp }} )</p>
+      <p><strong>Method:</strong> {{ method }}</p>
+      <p><strong>URL:</strong> <strong></strong></p>
+      {{#if relativePath}}
+      <p><strong>Relative path:</strong> {{ relativePath }}</p>
+      {{/if}}
+
+      <hr>
+
+      <h4>Headers:</h4>
+      <pre>{{ headers }}</pre>
+
+      {{#if displayBody}}
+        <hr>
+        <h4>Request Body:</h4>
+        <pre>{{ body }}</pre>
+      {{/if}}
+
+      {{#if displayRawBody}}
+        <hr>
+        <h4>Request Body (Raw):</h4>
+        <pre>{{ rawBody }}</pre>
+      {{/if}}
+
+      </div>
   </div>
 
 </template>

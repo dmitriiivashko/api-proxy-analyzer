@@ -1,1 +1,1 @@
-export const CALLS_LIMIT = 20;
+export const CALLS_LIMIT = 100;

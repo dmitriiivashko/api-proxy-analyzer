@@ -1,6 +1,6 @@
-import '../imports/startup/client/clientRoutes';
-import '../imports/ui/calls/calls';
-import '../imports/ui/singleCall/singleCall';
+import '/imports/startup/common/clientRoutes';
+import '/imports/ui/calls/calls';
+import '/imports/ui/singleCall/singleCall';
 
 // import { Template } from 'meteor/template';
 // import { ReactiveVar } from 'meteor/reactive-var';

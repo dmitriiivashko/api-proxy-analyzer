@@ -1,1 +1,1 @@
-export const API_ENDPOINT = '/api/push-endpoint';
+export const API_ENDPOINT = '/api(.*)';
