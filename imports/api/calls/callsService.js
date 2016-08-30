@@ -12,8 +12,6 @@ export default class {
     const timestamp = new Date();
     const files = JSON.stringify(request.files, null, 4);
 
-    console.log(request.files);
-
     // if (this.request.files && this.request.files.length > 0) {
       // this.request.files
     // }

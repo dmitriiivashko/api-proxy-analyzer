@@ -13,7 +13,7 @@ if (Meteor.isServer) {
   Router.configureBodyParsers = function () {
     Router.onBeforeAction(Iron.Router.bodyParser.json(), { where: 'server' });
     Router.onBeforeAction(Iron.Router.bodyParser.urlencoded({
-      type: (req) => !req.headers['content-type'].match(/multipart\/form\-data/i),
+      // type: (req) => !req.headers['content-type'].match(/(multipart\/form\-data|text\/plain)/i),
       extended: false,
     }), { where: 'server' });
     Router.onBeforeAction((req, res, next) => {
