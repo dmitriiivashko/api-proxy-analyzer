@@ -1,12 +1,13 @@
 import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor';
+import * as Constants from '/imports/startup/global_settings';
 
 const Calls = new Mongo.Collection('calls');
 
 /* eslint-disable prefer-arrow-callback */
 if (Meteor.isServer) {
   Meteor.publish('calls', function callsPublication() {
-    return Calls.find({});
+    return Calls.find({}, { sort: { timestamp: -1 }, limit: Constants.CALLS_LIMIT });
   });
 }
 

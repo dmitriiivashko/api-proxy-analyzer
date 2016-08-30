@@ -8,7 +8,7 @@ import './calls.html';
 /* eslint-disable prefer-arrow-callback, no-underscore-dangle */
 
 function allCalls() {
-  return Calls.find({}, { sort: { timestamp: -1, limit: Constants.CALLS_LIMIT } });
+  return Calls.find({}, { sort: { timestamp: -1 }, limit: Constants.CALLS_LIMIT });
 }
 
 Template.calls.helpers({
