@@ -10,6 +10,15 @@ export default class {
     const body = JSON.stringify(request.body, null, 4);
     const rawBody = request.rawBody;
     const timestamp = new Date();
+    const files = JSON.stringify(request.files, null, 4);
+
+    console.log(request.files);
+
+    // if (this.request.files && this.request.files.length > 0) {
+      // this.request.files
+    // }
+    // var path = this.request.files.file.path;
+		// var name = this.request.files.file.name;
 
     Calls.insert({
       url,
@@ -18,6 +27,7 @@ export default class {
       method,
       headers,
       body,
+      files,
       rawBody,
       timestamp,
     });

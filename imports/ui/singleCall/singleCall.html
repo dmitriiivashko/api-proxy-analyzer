@@ -8,7 +8,7 @@
 
       <p><strong>ID:</strong> {{ _id }} ( {{ timestamp }} )</p>
       <p><strong>Method:</strong> {{ method }}</p>
-      <p><strong>URL:</strong> <strong></strong></p>
+      <p><strong>URL:</strong> {{ url }} <strong></strong></p>
       {{#if relativePath}}
       <p><strong>Relative path:</strong> {{ relativePath }}</p>
       {{/if}}
@@ -28,6 +28,12 @@
         <hr>
         <h4>Request Body (Raw):</h4>
         <pre>{{ rawBody }}</pre>
+      {{/if}}
+
+      {{#if displayFiles}}
+        <hr>
+        <h4>Attached Files:</h4>
+        <pre>{{ files }}</pre>
       {{/if}}
 
       </div>
