@@ -17,7 +17,7 @@ if (Meteor.isServer) {
       extended: false,
     }), { where: 'server' });
     Router.onBeforeAction((req, res, next) => {
-      if (req.method === 'POST' && req.headers['content-type'].match(/multipart\/form\-data/i)) {
+      if (req.method === 'POST' && req.headers['content-type'] && req.headers['content-type'].match(/multipart\/form\-data/i)) {
         const files = {};
         const body = {};
         const busboy = new Busboy({
@@ -54,7 +54,7 @@ if (Meteor.isServer) {
       }
     });
     Router.onBeforeAction(Iron.Router.bodyParser.raw({
-      type: (req) => !req.headers['content-type'].match(/multipart\/form\-data/i),
+      type: (req) => !req.headers['content-type'] || !req.headers['content-type'].match(/multipart\/form\-data/i),
       verify(req, res, body) {
         req.rawBody = body.toString();
       },
