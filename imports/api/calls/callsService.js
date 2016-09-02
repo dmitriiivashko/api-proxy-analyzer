@@ -20,13 +20,13 @@ export default class {
       parsedUrl,
       method,
       headers,
-      body,
+      body: typeof body !== 'object' && rawBody == null ? body : null,
       files,
-      rawBody: rawBody !== null ? rawBody : null,
+      rawBody: rawBody != null ? true : null,
       timestamp,
     }, (error, _id) => {
       if (error) {
-        return;
+        throw error;
       }
       if (!rawBody) {
         return;
