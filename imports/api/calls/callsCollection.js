@@ -1,3 +1,4 @@
+import grid from '/imports/adapters/gridFs';
 import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor';
 import * as Constants from '/imports/startup/global_settings';
@@ -14,6 +15,11 @@ if (Meteor.isServer) {
 Meteor.methods({
   'calls.delete'(callId) { // eslint-disable-line meteor/audit-argument-checks
     Calls.remove({ _id: callId });
+    if (Meteor.isServer) {
+      grid.remove({
+        filename: `${callId}.txt`,
+      });
+    }
   },
   'calls.proxy'(callId) { // eslint-disable-line meteor/audit-argument-checks, no-unused-vars
     if (Meteor.isClient) {
