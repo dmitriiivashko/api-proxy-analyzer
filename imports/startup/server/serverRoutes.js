@@ -69,6 +69,7 @@ if (Meteor.isServer) {
   };
 
   Router.route(Settings.API_ENDPOINT, function () {
+    console.log('INCOMING REQUEST RECEIVED');
     const relativePath = this.params.length > 0 ? this.params[0] : '';
     CallsService.registerRequest(relativePath, this.request);
     this.response.end('OK');
@@ -98,6 +99,7 @@ if (Meteor.isServer) {
     });
 
     r.on('end', function () {
+      resp.writeHead(200, { 'Content-Type': 'text/plain' });
       resp.end(output);
     });
   }, { where: 'server' });

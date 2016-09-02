@@ -1,2 +1,2 @@
 export const API_ENDPOINT = '/api(.*)';
-export const REQUEST_SIZE_LIMIT = '16mb';
+export const REQUEST_SIZE_LIMIT = '32mb';
