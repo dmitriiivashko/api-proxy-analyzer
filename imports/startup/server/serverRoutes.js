@@ -1,10 +1,12 @@
 /* eslint-disable no-param-reassign, func-names, prefer-arrow-callback, prefer-template, max-len */
 
 import * as Settings from '/server/common/server_settings';
+import * as GlobalSettings from '/imports/startup/global_settings';
+import grid from '/imports/adapters/gridFs';
 import { Meteor } from 'meteor/meteor';
 import CallsService from '/imports/api/calls/callsService';
 import Busboy from 'busboy';
-import { inspect } from 'util';
+// import { inspect } from 'util';
 // import fs from 'fs';
 // import path from 'path';
 // import os from 'os';
@@ -74,4 +76,29 @@ if (Meteor.isServer) {
     where: 'server',
     name: 'endpoint',
   });
+
+  Router.route(`${GlobalSettings.FILES_ENDPOINT}/:filename`, function () {
+    const resp = this.response;
+
+    const r = grid.createReadStream({
+      filename: this.params.filename,
+    });
+
+    r.setEncoding('utf8');
+    let output = '';
+
+    r.on('data', function (chunk) {
+      output += chunk;
+    });
+
+    r.on('error', function () {
+      resp.writeHead(404);
+      resp.end('Not Found');
+      return;
+    });
+
+    r.on('end', function () {
+      resp.end(output);
+    });
+  }, { where: 'server' });
 }

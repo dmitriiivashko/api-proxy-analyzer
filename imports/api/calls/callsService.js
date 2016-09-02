@@ -1,3 +1,5 @@
+import grid from '/imports/adapters/gridFs';
+import { Readable } from 'stream';
 import Url from 'url';
 import Calls from './callsCollection';
 
@@ -12,12 +14,6 @@ export default class {
     const timestamp = new Date();
     const files = JSON.stringify(request.files, null, 4);
 
-    // if (this.request.files && this.request.files.length > 0) {
-      // this.request.files
-    // }
-    // var path = this.request.files.file.path;
-		// var name = this.request.files.file.name;
-
     Calls.insert({
       url,
       relativePath,
@@ -26,8 +22,25 @@ export default class {
       headers,
       body,
       files,
-      rawBody,
+      rawBody: rawBody !== null ? rawBody : null,
       timestamp,
+    }, (error, _id) => {
+      if (error) {
+        return;
+      }
+      if (!rawBody) {
+        return;
+      }
+
+      const s = new Readable();
+      s.push(rawBody);
+      s.push(null);
+
+      const w = grid.createWriteStream({
+        filename: `${_id}.txt`,
+      });
+
+      s.pipe(w);
     });
   }
 
