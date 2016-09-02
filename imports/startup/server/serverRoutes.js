@@ -11,10 +11,11 @@ import { inspect } from 'util';
 
 if (Meteor.isServer) {
   Router.configureBodyParsers = function () {
-    Router.onBeforeAction(Iron.Router.bodyParser.json(), { where: 'server' });
+    Router.onBeforeAction(Iron.Router.bodyParser.json({ limit: Settings.REQUEST_SIZE_LIMIT }), { where: 'server' });
     Router.onBeforeAction(Iron.Router.bodyParser.urlencoded({
       // type: (req) => !req.headers['content-type'].match(/(multipart\/form\-data|text\/plain)/i),
       extended: false,
+      limit: Settings.REQUEST_SIZE_LIMIT,
     }), { where: 'server' });
     Router.onBeforeAction((req, res, next) => {
       if (req.method === 'POST' && req.headers['content-type'] && req.headers['content-type'].match(/multipart\/form\-data/i)) {
@@ -52,12 +53,13 @@ if (Meteor.isServer) {
       } else {
         next();
       }
-    });
+    }, { where: 'server' });
     Router.onBeforeAction(Iron.Router.bodyParser.raw({
       type: (req) => !req.headers['content-type'] || !req.headers['content-type'].match(/multipart\/form\-data/i),
       verify(req, res, body) {
         req.rawBody = body.toString();
       },
+      limit: Settings.REQUEST_SIZE_LIMIT,
     }), {
       only: ['endpoint'],
       where: 'server',
