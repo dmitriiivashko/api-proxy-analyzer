@@ -3,6 +3,7 @@
 import * as Settings from '/server/common/server_settings';
 import * as GlobalSettings from '/imports/startup/global_settings';
 import _ from 'lodash';
+import debugLib from 'debug';
 import { Meteor } from 'meteor/meteor';
 import CallsService from '/imports/api/calls/callsService';
 import Busboy from 'busboy';
@@ -10,6 +11,8 @@ import Busboy from 'busboy';
 // import fs from 'fs';
 // import path from 'path';
 // import os from 'os';
+
+const debug = debugLib('main');
 
 if (Meteor.isServer) {
   Router.configureBodyParsers = function () {
@@ -74,6 +77,7 @@ if (Meteor.isServer) {
     }
 
     Router.route(rule.path, function () {
+      debug('REQUEST CALL RECEIVED');
       const relativePath = this.params.length > 0 ? this.params[0] : '';
       CallsService.registerRequest(relativePath, this.request, rule);
       this.response.end('OK');

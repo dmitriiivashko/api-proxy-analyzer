@@ -2,12 +2,14 @@ import grid from '/imports/adapters/gridFs';
 import { Readable } from 'stream';
 import Url from 'url';
 import _ from 'lodash';
+import debugLib from 'debug';
 import requestLib from 'request';
 import { Meteor } from 'meteor/meteor';
 import * as Constants from '/imports/startup/global_settings';
 import Calls from './callsCollection';
 
 const IGNORED_HEADERS = ['content-length', 'host'];
+const debug = debugLib('main');
 
 export default class CallsService {
   static registerRequest(relativePath, request, rule) {
@@ -119,10 +121,10 @@ export default class CallsService {
         body: bodyToProxy,
       }, (error, response, bodyContent) => { // eslint-disable-line no-unused-vars
         if (error) {
-          console.log('PROXY ERROR', proxyUrl, call.method, proxyHeaders, bodyToProxy, error); // eslint-disable-line no-console, max-len
+          debug('PROXY ERROR', proxyUrl, call.method, proxyHeaders, bodyToProxy, error); // eslint-disable-line no-console, max-len
           return;
         }
-        console.log('REQUEST PROXIED'); // eslint-disable-line no-console
+        debug('REQUEST PROXIED'); // eslint-disable-line no-console
       });
     });
   }
