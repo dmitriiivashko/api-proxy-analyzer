@@ -2,7 +2,7 @@
 
 import * as Settings from '/server/common/server_settings';
 import * as GlobalSettings from '/imports/startup/global_settings';
-import grid from '/imports/adapters/gridFs';
+import _ from 'lodash';
 import { Meteor } from 'meteor/meteor';
 import CallsService from '/imports/api/calls/callsService';
 import Busboy from 'busboy';
@@ -68,24 +68,28 @@ if (Meteor.isServer) {
     });
   };
 
-  Router.route(Settings.API_ENDPOINT, function () {
-    console.log('INCOMING REQUEST RECEIVED');
-    const relativePath = this.params.length > 0 ? this.params[0] : '';
-    CallsService.registerRequest(relativePath, this.request);
-    this.response.end('OK');
-  }, {
-    where: 'server',
-    name: 'endpoint',
+  _.forEach(Settings.API_ENDPOINTS, (rule) => {
+    if (!rule.path) {
+      return true;
+    }
+
+    Router.route(rule.path, function () {
+      const relativePath = this.params.length > 0 ? this.params[0] : '';
+      CallsService.registerRequest(relativePath, this.request, rule);
+      this.response.end('OK');
+    }, {
+      where: 'server',
+      name: 'endpoint',
+    });
+
+    return true;
   });
 
   Router.route(`${GlobalSettings.FILES_ENDPOINT}/:filename`, function () {
     const resp = this.response;
 
-    const r = grid.createReadStream({
-      filename: this.params.filename,
-    });
+    const r = CallsService.getCallDataStream(this.params.filename);
 
-    r.setEncoding('utf8');
     let output = '';
 
     r.on('data', function (chunk) {

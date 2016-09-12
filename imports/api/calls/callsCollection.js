@@ -1,7 +1,9 @@
 import grid from '/imports/adapters/gridFs';
 import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor';
+import _ from 'lodash';
 import * as Constants from '/imports/startup/global_settings';
+import CallsService from '/imports/api/calls/callsService';
 
 const Calls = new Mongo.Collection('calls');
 
@@ -22,6 +24,12 @@ Meteor.methods({
     }
   },
   'calls.proxy'(callId) { // eslint-disable-line meteor/audit-argument-checks, no-unused-vars
+    if (Meteor.isServer) {
+      const call = CallsService.getCall(callId);
+      _.forEach(Constants.PROXY_RULES, (singleProxyRule) => {
+        CallsService.proxyCall(call, singleProxyRule);
+      });
+    }
     if (Meteor.isClient) {
       alert('Request successfully proxied'); // eslint-disable-line no-alert, no-undef
     }
